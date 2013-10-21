@@ -1,0 +1,8 @@
+*.elc
+/.emacs.d/elpa/
+/.emacs.d/backups
+/.emacs.d/auto-save-list
+/.emacs.d/*.dat
+/,emacs.d/places
+/,emacs.d/recentf
+/.emacs.d/secrets.el
