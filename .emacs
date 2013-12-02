@@ -126,6 +126,8 @@
 (setq circe-network-options
       `(("Freenode"
          :nick "theanalyst"
+	 :realname "Abhi"
+	 :pass ,freenode-pass
          :channels ("#emacs" "#emacs-circe" "#hy")
          :nowait-on-connect nil
          :port (8000 . 8001)))
