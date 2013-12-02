@@ -20,9 +20,9 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(80 50))
 (dolist (frame-param-list '((alpha 80 50)
-			    (font . "-unknown-Inconsolata-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")))
+			    (font . "-unknown-CosmicSansNeueMono-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")))
   (add-to-list 'default-frame-alist frame-param-list))
-(load-theme 'sanityinc-tomorrow-bright t)
+(load-theme 'molokai t)
 
 ;;--------------------------------------------
 ;; the quintessential better defaults
@@ -44,6 +44,7 @@
       custom-safe-themes t
       debug-on-error t
       save-place t
+      winner-mode t
       uniquify-buffer-name-style 'forward
       backup-directory-alist '((".". "~/.emacs.d/backups"))
       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves\\1" t))
@@ -178,7 +179,7 @@ want to use in the modeline *in lieu of* the original."
 		     java-mode-hook js-mode-hook
                      python-mode-hook ruby-mode-hook
 		     emacs-lisp-mode-hook inferior-lisp-mode-hook
-		     lisp-mode-hook scheme-mode-hook))
+		     lisp-mode-hook scheme-mode-hook hy-mode-hook))
   (add-hook prog-modes 'pretty-symbols-mode))
 
 
