@@ -3,6 +3,7 @@
 ;;--------------------------------------------
 (load-file "~/.emacs.d/bootstrap-packages.el")
 (load-file "~/.emacs.d/moar-defuns.el")
+(load-file "~/.emacs.d/secrets.el")
 ;;--------------------------------------------
 ;; Environment Variables for user
 ;;--------------------------------------------
