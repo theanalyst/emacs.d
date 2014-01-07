@@ -20,7 +20,7 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(80 50))
 (dolist (frame-param-list '((alpha 80 50)
-			    (font . "-unknown-CosmicSansNeueMono-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")))
+			    (font . "-unknown-CosmicSansNeueMono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")))
   (add-to-list 'default-frame-alist frame-param-list))
 (load-theme 'molokai t)
 
@@ -36,7 +36,8 @@
 (setq ido-enable-flex-matching t
       ido-use-filename-at-point 'guess
       ido-use-virtual-buffers t
-      ido-handle-duplicate-virtual-buffers 2)
+      ido-handle-duplicate-virtual-buffers 2
+      buffer-file-coding-system "utf-8-unix")
 
 (setq column-number-mode t
       visible-bell t
