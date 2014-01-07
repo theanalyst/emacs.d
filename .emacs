@@ -45,6 +45,7 @@
       debug-on-error t
       save-place t
       winner-mode t
+      projectile-global-mode t
       uniquify-buffer-name-style 'forward
       backup-directory-alist '((".". "~/.emacs.d/backups"))
       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves\\1" t))

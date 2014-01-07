@@ -48,6 +48,7 @@
     org-pomodoro
     paredit
     parscope
+    projectile
     list-utils
     rainbow-delimiters
     rainbow-mode
