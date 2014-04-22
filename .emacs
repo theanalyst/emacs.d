@@ -8,7 +8,7 @@
 ;; Environment Variables for user
 ;;--------------------------------------------
 (setq user-full-name "Abhishek L"
-      user-mail-address "abhishekl.2006@gmail.com")
+      user-mail-address "abhishek.lekshmanan@gmail.com")
 
 ;;--------------------------------------------
 ;; GUI preferences
@@ -188,5 +188,21 @@ want to use in the modeline *in lieu of* the original."
 		     lisp-mode-hook scheme-mode-hook hy-mode-hook))
   (add-hook prog-modes 'pretty-symbols-mode))
 
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(setq mu4e-maildir (expand-file-name "~/Maildir")
+      mu4e-drafts-folder "/[Gmail].Drafts"
+      mu4e-sent-folder   "/[Gmail].Sent Mail"
+      mu4e-trash-folder "/[Gmail].Trash"
+      mu4e-mail-command "offlineimap"
+      mu4e-update-interval 300
+      mu4e-maildir-shortcuts  '(("/INBOX" . ?i)
+				("/[Gmail].Sent Mail" . ?s)
+				("/[Gmail].Trash" . ?t)))
 
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials'(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials (expand-file-name "~/authinfo.gpg")
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587)
 
