@@ -189,20 +189,33 @@ want to use in the modeline *in lieu of* the original."
   (add-hook prog-modes 'pretty-symbols-mode))
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+
 (setq mu4e-maildir (expand-file-name "~/Maildir")
       mu4e-drafts-folder "/[Gmail].Drafts"
       mu4e-sent-folder   "/[Gmail].Sent Mail"
       mu4e-trash-folder "/[Gmail].Trash"
-      mu4e-mail-command "offlineimap"
+      mu4e-get-mail-command "offlineimap"
+      mu4e-attachment-dir "~/Downloads/mail"
       mu4e-update-interval 300
       mu4e-maildir-shortcuts  '(("/INBOX" . ?i)
 				("/[Gmail].Sent Mail" . ?s)
 				("/[Gmail].Trash" . ?t)))
 
+(setq mail-user-agent 'mu4e-user-agent)
+
 (setq message-send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
-      smtpmail-starttls-credentials'(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials (expand-file-name "~/authinfo.gpg")
+      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587)
 
+(require 'netrc)
+
+(defun offlineimap-get-password (host port)
+  "Used by ~/offlineimap.py"
+(let*
+    ((auth-credentials (netrc-parse smtpmail-auth-credentials))
+     (hostentry (netrc-machine auth-credentials host port port)))
+  (when hostentry
+    (netrc-get hostentry "password"))))
