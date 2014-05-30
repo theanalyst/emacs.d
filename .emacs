@@ -52,7 +52,9 @@
       uniquify-buffer-name-style 'forward
       backup-directory-alist '((".". "~/.emacs.d/backups"))
       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves\\1" t))
-      save-place-file "~/.emacs.d/places")
+      save-place-file "~/.emacs.d/places"
+      browse-url-generic-program (executable-find "conkeror")
+      browse-url-browser-function 'browse-url-generic)
 (show-paren-mode)
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
@@ -73,6 +75,10 @@
 (setq compilation-scroll-output t
       default-input-method "TeX")
 
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+(elpy-enable)
 ;;--------------------------------------------
 ;; Lispy preferences, mostly borrowed from esk
 ;;--------------------------------------------
