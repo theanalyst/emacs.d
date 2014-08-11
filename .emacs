@@ -216,6 +216,14 @@ want to use in the modeline *in lieu of* the original."
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587)
 
+(setq mu4e-compose-signature "Abhishek")
+
+(defadvice mml2015-sign (after mml2015-sign-rename (cont) act)
+    (save-excursion
+      (search-backward "Content-Type: application/pgp-signature")
+      (goto-char (point-at-eol))
+      (insert "; name=\"signature.asc\"; description=\"Digital signature\"")))
+
 (require 'netrc)
 
 (defun offlineimap-get-password (host port)
