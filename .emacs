@@ -135,15 +135,60 @@
 ;;--------------------------------------------
 (setq circe-network-options
       `(("Freenode"
-         :nick "theanalyst"
+         :nick "abhi-"
 	 :realname "Abhi"
 	 :pass ,freenode-pass
-         :channels ("#emacs" "#emacs-circe" "#hy")
+         :channels ("#jiocloud" "#jiocloud-dev")
          :nowait-on-connect nil
-         :port (8000 . 8001)))
-      circe-reduce-lurker-spam t
-)
+         :port (8000 . 8001))
+	("ZNC"
+	 :host "furnace.firrre.com"
+	 :port 9090
+	 :tls t
+	 :pass ,znc-pass)
+	("OFTC-ZNC"
+	 :host "furnace.firrre.com"
+	 :port 9090
+	 :tls t
+	 :pass ,znc-oftc-pass))
+      circe-reduce-lurker-spam t)
+
 (enable-circe-color-nicks)
+
+(defun irc ()
+  "Connect to irc, circe style"
+  (interactive)
+  (circe "ZNC")
+  (circe "OFTC-ZNC")
+  (circe "Freenode"))
+
+(defun circe-network-connected-p (network)
+  "Return non-nil if there's any Circe server-buffer whose
+`circe-server-netwok' is NETWORK."
+  (catch 'return
+    (dolist (buffer (circe-server-buffers))
+      (with-current-buffer buffer
+        (if (string= network circe-server-network)
+            (throw 'return t))))))
+
+(defun circe-maybe-connect (network)
+  "Connect to NETWORK, but ask user for confirmation if it's
+already been connected to."
+  (interactive "sNetwork: ")
+  (if (or (not (circe-network-connected-p network))
+          (y-or-n-p (format "Already connected to %s, reconnect?" network)))
+      (circe network)))
+
+(defvar my-circe-bot-list '("fsbot" "rudybot" "jiocloudbot"))
+(defun my-circe-message-option-bot (nick &rest ignored)
+  (when (member nick my-circe-bot-list)
+    '((text-properties . (face circe-fool-face
+                          lui-do-not-track t)))))
+(add-hook 'circe-message-option-functions 'my-circe-message-option-bot)
+
+(require 'lui-autopaste)
+(add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
+
 ;;--------------------------------------------
 ;; Some prettiness in prog langs & modelines
 ;;--------------------------------------------
@@ -160,7 +205,7 @@
     (emacs-lisp-mode . "ξ")
     (nxml-mode . "χ")
     (inferior-scheme-mode . "∫λ")
-    (scheme-mode . "λ")
+    (scheme-mode . "Sc")
     (ielm-mode . "ξλ")
     )
  "Alist for `clean-mode-line'.
@@ -223,6 +268,8 @@ want to use in the modeline *in lieu of* the original."
       (search-backward "Content-Type: application/pgp-signature")
       (goto-char (point-at-eol))
       (insert "; name=\"signature.asc\"; description=\"Digital signature\"")))
+
+(add-hook 'message-setup-hook 'mml-secure-sign-pgpmime)
 
 (require 'netrc)
 
