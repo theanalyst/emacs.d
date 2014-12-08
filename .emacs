@@ -70,7 +70,6 @@
 (require 'auto-complete)
 (require 'yasnippet)
 (yas-global-mode t)
-(global-rainbow-delimiters-mode)
 (global-auto-complete-mode)
 (setq compilation-scroll-output t
       default-input-method "TeX")
@@ -239,23 +238,89 @@ want to use in the modeline *in lieu of* the original."
 		     lisp-mode-hook scheme-mode-hook hy-mode-hook))
   (add-hook prog-modes 'pretty-symbols-mode))
 
+(add-hook 'prog-mode-hook 'rainbow-delimeters-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(eval-after-load "haskell-mode"
+  '(progn
+     (define-key haskell-mode-map (kbd "C-x C-d") nil)
+     (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+     (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
+     (define-key haskell-mode-map (kbd "C-c C-b") 'haskell-interactive-switch)
+     (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+     (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+     (define-key haskell-mode-map (kbd "C-c M-.") nil)
+     (define-key haskell-mode-map (kbd "C-c C-d") nil)))
+;(add-hook 'haskell-mode-hook 'turn-on-haskell-unicode-input-method)
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
 (setq mu4e-maildir (expand-file-name "~/Maildir")
-      mu4e-drafts-folder "/[Gmail].Drafts"
-      mu4e-sent-folder   "/[Gmail].Sent Mail"
-      mu4e-trash-folder "/[Gmail].Trash"
+      mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
+      mu4e-sent-folder   "/Gmail/[Gmail].Sent Mail"
+      mu4e-trash-folder "/Gmail/[Gmail].Trash"
       mu4e-get-mail-command "offlineimap"
       mu4e-attachment-dir "~/Downloads/mail"
       mu4e-update-interval 300
-      mu4e-maildir-shortcuts  '(("/INBOX" . ?i)
-				("/[Gmail].Sent Mail" . ?s)
-				("/[Gmail].Trash" . ?t)))
+      mu4e-maildir-shortcuts  '(("/Gmail/INBOX" . ?i)
+				("/Gmail/[Gmail].Sent Mail" . ?s)
+				("/Gmail/[Gmail].Trash" . ?t))
+      smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+      mu4e-maildir-shortcuts  '(("/Gmail/INBOX" . ?i)
+				("/Gmail/[Gmail].Sent Mail" . ?s)
+				("/Gmail/[Gmail].Trash" . ?t)
+                                ("/Work/INBOX" . ?w)
+                                ("/Work/Sent" . ?p)))
+
+
+
+(defvar my-mu4e-account-alist
+  '(("Gmail"
+     (mu4e-drafts-folder "/Gmail/[Gmail].Drafts")
+     (mu4e-sent-folder   "/Gmail/[Gmail].Sent Mail")
+     (mu4e-trash-folder "/Gmail/[Gmail].Trash")
+     (mu4e-get-mail-command "offlineimap -a Gmail")
+     (mu4e-attachment-dir "~/Downloads/mail")
+     (mu4e-update-interval 300)
+     (user-mail-address "abhishek.lekshmanan@gmail.com")
+     (smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+     (smtpmail-smtp-server "smtp.gmail.com")
+     (smtpmail-stream-type starttls)
+     (smtpmail-smtp-service 587)
+     (starttls-use-gnutls t))
+    
+     ("Work"
+      (mu4e-sent-folder "/Work/Sent")
+      (mu4e-drafts-folder "/Work/Drafts")
+      (mu4e-trash-folder "/Work/Trash")
+      (user-mail-address "abhishek.lekshmanan@ril.com")
+      (smtpmail-smtp-user "abhishek.lekshmanan")
+      (smtpmail-smtp-server "localhost")
+      (smtpmail-starttls-credentials '(("localhost" 465 nil nil)))
+      (smtpmail-smtp-service 465))))
+
+
 
 (setq mail-user-agent 'mu4e-user-agent)
-
+(defun my-mu4e-set-account ()
+  "Set the account for composing a message."
+  (let* ((account
+          (if mu4e-compose-parent-message
+              (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                (string-match "/\\(.*?\\)/" maildir)
+                (match-string 1 maildir))
+            (completing-read (format "Compose with account: (%s) "
+                                     (mapconcat #'(lambda (var) (car var))
+                                                my-mu4e-account-alist "/"))
+                             (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                             nil t nil nil (caar my-mu4e-account-alist))))
+         (account-vars (cdr (assoc account my-mu4e-account-alist))))
+    (if account-vars
+        (mapc #'(lambda (var)
+                  (set (car var) (cadr var)))
+              account-vars)
+      (error "No email account found"))))
+(add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 (setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
       smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
       smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
       smtpmail-smtp-server "smtp.gmail.com"
