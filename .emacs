@@ -238,7 +238,7 @@ want to use in the modeline *in lieu of* the original."
 		     lisp-mode-hook scheme-mode-hook hy-mode-hook))
   (add-hook prog-modes 'pretty-symbols-mode))
 
-(add-hook 'prog-mode-hook 'rainbow-delimeters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (eval-after-load "haskell-mode"
