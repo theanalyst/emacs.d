@@ -4,7 +4,8 @@
 (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("ELPA" . "http://tromey.com/elpa/")
 			 ("gnu" . "http://elpa.gnu.org/packages/")
-			 ("MELPA" . "http://melpa.milkbox.net/packages/" )))
+			 ("MELPA" . "http://melpa.milkbox.net/packages/" )
+			 ("elpy" . "http://jorgenschaefer.github.io/packages/")))
 
 (defvar abhi/packages
   '(ac-nrepl
@@ -35,8 +36,6 @@
     idomenu
     ix
     inf-ruby
-    js-comint
-    jsshell
     lcs
     lorem-ipsum
     lua-mode
