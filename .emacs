@@ -31,15 +31,20 @@
 (require 'uniquify)
 (require 'saveplace)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(setq sml/no-confirm-load-theme t)
+(sml/setup)
+(sml/apply-theme 'powerline)
+;;(powerline-default-theme)
 (ido-mode t)
 (ido-ubiquitous t)
 (recentf-mode 1)
 (setq ido-enable-flex-matching t
       ido-use-filename-at-point 'guess
       ido-use-virtual-buffers t
-      ido-handle-duplicate-virtual-buffers 2
-      buffer-file-coding-system "utf-8-unix")
+      ido-handle-duplicate-virtual-buffers 2)
 
+;       buffer-file-coding-system "utf-8-unix"
 (setq column-number-mode t
       visible-bell t
       dired-dwim-target t
