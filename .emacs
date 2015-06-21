@@ -81,7 +81,20 @@
 ;;--------------------------------------------
 ;; Lispy preferences, mostly borrowed from esk
 ;;--------------------------------------------
+;; Package: smartparens
 (require 'smartparens)
+(require 'smartparens-config)
+(show-smartparens-global-mode +1)
+(smartparens-global-mode 1)
+
+;; when you press RET, the curly braces automatically
+;; add another newline
+(sp-with-modes '(c-mode c++-mode)
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
+                                            ("* ||\n[i]" "RET"))))
+
+
 (dolist (lisp-mode '(scheme emacs-lisp lisp clojure hy))
   (add-hook (intern (concat (symbol-name lisp-mode) "-mode-hook")) 
 	    'paredit-mode))
