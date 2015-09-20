@@ -416,7 +416,9 @@ want to use in the modeline *in lieu of* the original."
       (smtpmail-smtp-user "abhishek.lekshmanan")
       (smtpmail-smtp-server "localhost")
       (smtpmail-starttls-credentials '(("localhost" 465 nil nil)))
-      (smtpmail-smtp-service 465))))
+      (smtpmail-smtp-service 465)
+      (smtpmail-stream-type plain)
+      (smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")))))
 
 
 
