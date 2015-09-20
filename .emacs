@@ -156,6 +156,9 @@
       winner-mode t
       projectile-global-mode t
       indent-tabs-mode nil
+      global-hl-line-mode 1
+      global-git-gutter-mode 1
+      git-gutter:update-interval 2
       uniquify-buffer-name-style 'forward
       backup-directory-alist '((".". "~/.emacs.d/backups"))
       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves\\1" t))
