@@ -485,5 +485,6 @@ want to use in the modeline *in lieu of* the original."
   (interactive)
   (setq magit-diff-options (remove "-w" magit-diff-options))
   (magit-refresh))
+(add-hook 'before-save-hook 'gofmt-before-save)
 (require 'mu4e-contrib)
 (setq mu4e-html2text-command 'mu4e-shr2text)
