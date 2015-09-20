@@ -166,8 +166,8 @@
       browse-url-generic-program (executable-find "conkeror")
       browse-url-browser-function 'browse-url-generic)
 (show-paren-mode)
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
+;(smex-initialize)
+;(global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-c r") 'revert-buffer)
 
 ;(require 'framemove)
@@ -180,7 +180,7 @@
 (require 'auto-complete)
 (require 'yasnippet)
 (yas-global-mode t)
-(global-auto-complete-mode)
+;(global-auto-complete-mode)
 (setq compilation-scroll-output t
       default-input-method "TeX")
 
