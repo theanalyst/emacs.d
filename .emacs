@@ -410,18 +410,7 @@ want to use in the modeline *in lieu of* the original."
      (smtpmail-stream-type starttls)
      (smtpmail-smtp-service 587)
      (starttls-use-gnutls t))
-    
-     ("Work"
-      (mu4e-sent-folder "/Work/Sent")
-      (mu4e-drafts-folder "/Work/Drafts")
-      (mu4e-trash-folder "/Work/Trash")
-      (user-mail-address "abhishek.lekshmanan@ril.com")
-      (smtpmail-smtp-user "abhishek.lekshmanan")
-      (smtpmail-smtp-server "localhost")
-      (smtpmail-starttls-credentials '(("localhost" 465 nil nil)))
-      (smtpmail-smtp-service 465)
-      (smtpmail-stream-type plain)
-      (smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")))))
+    ))
 
 
 
