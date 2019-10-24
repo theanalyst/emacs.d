@@ -73,7 +73,6 @@ private/
 !private/README.md
 !private/snippets/README.md
 !private/templates/README.md
-!private/local/README.md
 
 # Ignore tags created by cscope, etags, ctags, and gtags (GNU global)
 # source: https://github.com/github/gitignore/blob/master/Global/Tags.gitignore
@@ -95,3 +94,10 @@ gtags.files
 eln-cache/
 meghanada/
 vimish-fold/
+=======
+/games/
+
+*.asc
+.*/
+irony/
+magithub/
