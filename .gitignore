@@ -101,3 +101,5 @@ vimish-fold/
 .*/
 irony/
 magithub/
+*sqlite
+tldr/
