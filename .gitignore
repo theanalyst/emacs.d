@@ -57,3 +57,5 @@ private/
 .*/
 irony/
 magithub/
+*sqlite
+tldr/
