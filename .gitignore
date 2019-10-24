@@ -52,3 +52,8 @@ private/
 !private/snippets/README.md
 !private/local/README.md
 /games/
+
+*.asc
+.*/
+irony/
+magithub/
