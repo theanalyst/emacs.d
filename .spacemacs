@@ -99,6 +99,13 @@ ace-jump-helm-line mu4e-maildirs-extension magithub
 yasnippet-snippets circe-notifications company-rtags rtags cmake-ide irony-mode
 company-irony company-irony-c-headers helm-rtags flycheck-rtags modern-cpp-font-lock
 howdoyou doom-themes
+;; https://github.com/syl20bnr/spacemacs/issues/14321#issuecomment-769244043
+;; to allow me to use the master branch of spacemacs (for stability reasons)
+(evil-magit :location (recipe
+                       :fetcher github
+                       :repo "emacs-evil/evil-magit"))
+
+
 )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -302,12 +309,12 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost any
 user code here.  The exception is org related code, which should be placed in
 `dotspacemacs/user-config'."
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+  ;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  ;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
   (require 'netrc)
-  (require 'notmuch)
-  (require 'mu4e)
-  (require 'mu4e-contrib)
+  ;(require 'notmuch)
+  ;(require 'mu4e)
+  ;(require 'mu4e-contrib)
   (setq mu4e-html2text-command 'mu4e-shr2text
         mu4e-compose-dont-reply-to-self t)
   (setq mail-user-agent 'message-user-agent)
@@ -315,33 +322,33 @@ user code here.  The exception is org related code, which should be placed in
 
 
 
-(load-file "~/.emacs.d/private/secrets.el")
-(setq circe-network-options
-      `(
-        ("ZNC"
-         :host "furnace.firrre.com"
-         :port 9090
-         :tls t
-         :pass ,znc-pass)
-        ("OFTC-ZNC"
-         :host "furnace.firrre.com"
-         :port 9090
-         :tls t
-         :pass ,znc-oftc-pass)
-        ("SUSE"
-         :host "irc.suse.de"
-         :port 6697
-         :tls t
-         :nick "abhi-"
-         :channels ("#ceph" "cloud" "#suse" "#opensuse")))
-      circe-reduce-lurker-spam t)
+;(load-file "~/.emacs.d/private/secrets.el")
+;; (setq circe-network-options
+;;       `(
+;;         ("ZNC"
+;;          :host "furnace.firrre.com"
+;;          :port 9090
+;;          :tls t
+;;          :pass ,znc-pass)
+;;         ("OFTC-ZNC"
+;;          :host "furnace.firrre.com"
+;;          :port 9090
+;;          :tls t
+;;          :pass ,znc-oftc-pass)
+;;         ("SUSE"
+;;          :host "irc.suse.de"
+;;          :port 6697
+;;          :tls t
+;;          :nick "abhi-"
+;;          :channels ("#ceph" "cloud" "#suse" "#opensuse")))
+;;       circe-reduce-lurker-spam t)
 
-(defun irc ()
-    "Connect to irc, circe style"
-    (interactive)
-    (circe "ZNC")
-    (circe "OFTC-ZNC")
-    (circe "SUSE"))
+;; (defun irc ()
+;;     "Connect to irc, circe style"
+;;     (interactive)
+;;     (circe "ZNC")
+;;     (circe "OFTC-ZNC")
+;;     (circe "SUSE"))
 
 (defun circe-network-connected-p (network)
   "Return non-nil if there's any Circe server-buffer whose
@@ -407,12 +414,12 @@ layers configuration. You are free to put any user code."
   (dolist (message '("354" "315")) (circe-set-display-handler message 'circe-display-ignore))
   (require 'smtpmail)
   (require 'vlf-setup) ; for very large files
-  (require 'mu4e-maildirs-extension)
+  ;(require 'mu4e-maildirs-extension)
   ;(mu4e-maildirs-extension)
   (global-company-mode)
   (enable-circe-color-nicks)
   (setq user-name "Abhishek Lekshmanan")
-  (setq user-mail-address "abhishek@suse.com")
+  (setq user-mail-address "abhishek.l@cern.ch")
   (setq default-input-method "TeX")
   (windmove-default-keybindings 'shift)
   (global-set-key (kbd "C-c r") 'revert-buffer)
@@ -605,58 +612,10 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default-input-method "TeX")
- '(delete-selection-mode nil)
  '(evil-want-Y-yank-to-eol t)
- '(notmuch-saved-searches
-   '((:name "inbox" :query "tag:inbox" :key "i")
-     (:name "flagged" :query "tag:flagged" :key "f")
-     (:name "drafts" :query "tag:draft" :key "d")
-     (:name "all mail" :query "*" :key "a")
-     (:name "unread" :query "tag:unread" :key "u")
-     (:name "ses-users" :query "folder:SES/ses-users and tag:unread")
-     (:name "bugzilla" :query "folder:SES/ceph-bugs and tag:unread")
-     (:name "ceph-users" :query "folder:ceph-upstream/ceph-users and tag:unread")
-     (:name "ceph-devel" :query "folder:ceph-upstream/ceph-devel and tag:unread")
-     (:name "ceph-maint" :query "folder:ceph-upstream/ceph-maintainers and tag:unread")
-     (:name "deepsea-git" :query "DeepSea@noreply.github.com and tag:unread")
-     (:name "research" :query "folder:suse/research and tag:unread")
-     (:name "devel" :query "folder:suse/devel and tag:unread")
-     (:name "users" :query "folder:suse/users and tag:unread")
-     (:name "unsorted-inbox" :query "folder:INBOX and tag:unread not notifications.github.com")
-     (:name "github" :query "notifications.github.com")
-     (:name
-      #("talk" 0 4
-        (ws-butler-chg chg))
-      :query "folder:suse/talk and tag:unread")
-     (:name
-      #("cloud-devel" 0 11
-        (ws-butler-chg chg))
-      :query "folder:suse/cloud-devel and tag:unread")
-     (:name
-      #("linux" 0 5
-        (ws-butler-chg chg))
-      :query "folder:suse/linux and tag:unread")
-     (:name
-      #("ses-users-full" 0 14
-        (ws-butler-chg chg))
-      :query "folder:SES/ses-users")
-     (:name
-      #("ceph@suse" 0 9
-        (ws-butler-chg chg))
-      :query "ceph@suse.de")
-     (:name
-      #("sent" 0 4
-        (ws-butler-chg chg))
-      :query "folder:sent")
-     (:name "me" :query "to:abhishek and tag:unread")
-     (:name "me-1m" :query "to:abhishek and date:1month..now")
-     (:name
-      #("last-week" 0 9
-        (ws-butler-chg chg))
-      :query "date:1week..now")))
+ '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(package-selected-packages
-   '(transient iedit anzu evil undo-tree hcl-mode smartparens mmm-mode magit-popup skewer-mode less-css-mode grapnel dash-functional promise projectile gitignore-mode fringe-helper git-gutter+ git-gutter pkg-info epl flx highlight goto-chg web-completion-data pos-tip ghc bind-map packed f s helm avy helm-core async auto-complete popup adaptive-wrap boogie-friends z3-mode orgit company-tern tern md4rd kaolin-themes yasnippet-snippets yapfify xterm-color web-mode sunshine smart-compile sass-mode salt-mode yaml-mode ruby-test-mode rubocop rspec-mode robe quelpa pyvenv pytest pip-requirements orgitq org-projectile org-pomodoro org-mime org-download ob-restclient mwim multi-term monokai-theme monky modern-cpp-font-lock magithub ghub+ ghub treepy live-py-mode leuven-theme js2-refactor multiple-cursors intero hy-mode htmlize hlint-refactor helm-company haml-mode go-guru git-timemachine git-link ggtags flyspell-correct-helm flyspell-correct flycheck-haskell evil-magit eshell-z eshell-prompt-extras esh-help dockerfile-mode docker json-mode tablist diff-hl cython-mode company-rtags company-restclient company-irony company-go company-ghci company-c-headers company-ansible company-anaconda cmake-mode cmake-ide clang-format bundler inf-ruby auto-yasnippet ansible anaconda-mode ag alert irony company flycheck haskell-mode go-mode yasnippet circe rtags magit git-commit with-editor dash markdown-mode pythonic restclient js2-mode simple-httpd winum which-key use-package toc-org spaceline powerline request rainbow-delimiters persp-mode paradox org-plus-contrib org-bullets neotree lorem-ipsum link-hint hydra lv hl-todo highlight-numbers highlight-indentation helm-swoop ws-butler window-numbering web-beautify volatile-highlights vlf vi-tilde-fringe uuidgen unfill theme-changer terraform-mode tagedit stickyfunc-enhance srefactor spinner smeargle slim-mode shm shell-pop scss-mode rvm ruby-tools restclient-helm restart-emacs rbenv rase rake rainbow-mode pyenv-mode py-isort pug-mode popwin pcre2el parent-mode osx-location org-repo-todo org-present org-category-capture open-junk-file ob-http mu4e-maildirs-extension move-text mmm-jinja2 minitest material-theme markdown-toc magit-gitflow macrostep log4e livid-mode linum-relative levenshtein let-alist know-your-http-well json-snatcher json-reformat js-doc jinja2-mode ix indent-guide hungry-delete howdoyou hindent highlight-parentheses helm-themes helm-rtags helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gtags helm-gitignore helm-flyspell helm-flx helm-descbinds helm-css-scss helm-circe helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio go-eldoc gnuplot gntp gitconfig-mode gitattributes-mode git-messenger git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flycheck-rtags flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav dumb-jump doom-themes docker-tramp disaster diminish define-word csv-mode company-web company company-statistics company-quickhelp company-irony-c-headers company-ghc company-cabal column-enforce-mode coffee-mode cmm-mode clean-aindent-mode circe-notifications chruby calfw buffer-move bind-key auto-highlight-symbol auto-dictionary auto-compile apiwrap ansible-doc aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell)))
+   '(evil-magit ripgrep protobuf-mode yasnippet-snippets yapfify xterm-color window-numbering web-mode web-beautify vlf unfill theme-changer terraform-mode hcl-mode tagedit sunshine stickyfunc-enhance srefactor smeargle smart-compile slim-mode shm shell-pop scss-mode sass-mode salt-mode mmm-jinja2 yaml-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm rbenv rase rake rainbow-mode quelpa pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-location osx-dictionary orgit org-repo-todo org-projectile org-category-capture org-present org-pomodoro org-mime org-download ob-restclient ob-http mwim multi-term mu4e-maildirs-extension monokai-theme monky modern-cpp-font-lock mmm-mode minitest material-theme markdown-toc magithub markdown-mode ghub+ apiwrap ghub treepy magit-gitflow magit-popup magit livid-mode skewer-mode simple-httpd live-py-mode leuven-theme launchctl js2-refactor multiple-cursors js2-mode js-doc jinja2-mode ix grapnel hy-mode dash-functional htmlize howdoyou promise hlint-refactor hindent helm-rtags helm-pydoc helm-hoogle helm-gtags helm-gitignore helm-flyspell helm-css-scss helm-company helm-circe helm-c-yasnippet haskell-snippets haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter git-commit with-editor gh-md ggtags fuzzy flyspell-correct-helm flyspell-correct flycheck-rtags flycheck-pos-tip flycheck-haskell flycheck eshell-z eshell-prompt-extras esh-help emmet-mode doom-themes dockerfile-mode docker transient tablist json-mode docker-tramp json-snatcher json-reformat disaster diff-hl cython-mode csv-mode company-web web-completion-data company-statistics company-rtags rtags company-restclient restclient know-your-http-well company-quickhelp pos-tip company-irony-c-headers company-irony irony company-go go-mode company-ghci haskell-mode company-cabal company-c-headers company-ansible company-anaconda company coffee-mode cmm-mode cmake-mode cmake-ide levenshtein clang-format circe-notifications alert log4e gntp circe chruby calfw bundler inf-ruby buffer-move auto-yasnippet yasnippet auto-dictionary ansible-doc ansible anaconda-mode pythonic ag ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu elisp-slime-nav dumb-jump dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
